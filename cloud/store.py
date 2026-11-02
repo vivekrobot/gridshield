@@ -7,7 +7,7 @@ import time
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any, Iterable, Iterator
 
 from .config import DB_PATH
 
@@ -88,8 +88,9 @@ class Store:
         return [dict(r) for r in rows]
 
     # -------------------------------------------------------------- telemetry
-    def insert_telemetry(
+    def _insert_telemetry(
         self,
+        conn: sqlite3.Connection,
         row: dict[str, Any],
         wave: dict[str, list[float]] | None = None,
         anomaly_score: float | None = None,
@@ -104,27 +105,62 @@ class Store:
         values["payload_json"] = payload_json
         columns = ", ".join(values)
         placeholders = ", ".join("?" for _ in values)
-        with self.connect() as conn:
-            cur = conn.execute(
-                f"INSERT INTO telemetry ({columns}) VALUES ({placeholders})",
-                tuple(values.values()),
+        cur = conn.execute(
+            f"INSERT INTO telemetry ({columns}) VALUES ({placeholders})",
+            tuple(values.values()),
+        )
+        if wave and wave.get("v") and wave.get("i"):
+            conn.execute(
+                """
+                INSERT INTO waveform_latest (device_id, ts_epoch, v_json, i_json)
+                VALUES (?, ?, ?, ?)
+                ON CONFLICT(device_id) DO UPDATE SET
+                    ts_epoch=excluded.ts_epoch, v_json=excluded.v_json, i_json=excluded.i_json
+                """,
+                (
+                    row["device_id"],
+                    row["ts_epoch"],
+                    json.dumps(wave["v"]),
+                    json.dumps(wave["i"]),
+                ),
             )
-            if wave and wave.get("v") and wave.get("i"):
-                conn.execute(
-                    """
-                    INSERT INTO waveform_latest (device_id, ts_epoch, v_json, i_json)
-                    VALUES (?, ?, ?, ?)
-                    ON CONFLICT(device_id) DO UPDATE SET
-                        ts_epoch=excluded.ts_epoch, v_json=excluded.v_json, i_json=excluded.i_json
-                    """,
-                    (
-                        row["device_id"],
-                        row["ts_epoch"],
-                        json.dumps(wave["v"]),
-                        json.dumps(wave["i"]),
-                    ),
+        return int(cur.lastrowid)
+
+    def insert_telemetry(
+        self,
+        row: dict[str, Any],
+        wave: dict[str, list[float]] | None = None,
+        anomaly_score: float | None = None,
+        health_index: float | None = None,
+        degraded: bool = False,
+        payload_json: str | None = None,
+    ) -> int:
+        with self.connect() as conn:
+            return self._insert_telemetry(
+                conn, row, wave, anomaly_score, health_index, degraded, payload_json
+            )
+
+    def insert_telemetry_many(self, records: Iterable[dict[str, Any]]) -> int:
+        """Insert pre-built telemetry records in one transaction.
+
+        Used by the dashboard demo backfill, where hundreds of history rows
+        would otherwise pay one SQLite connection/commit per row.
+        """
+        count = 0
+        with self.connect() as conn:
+            for record in records:
+                item = dict(record)
+                self._insert_telemetry(
+                    conn,
+                    item,
+                    wave=item.pop("wave", None),
+                    anomaly_score=item.pop("anomaly_score", None),
+                    health_index=item.pop("health_index", None),
+                    degraded=bool(item.pop("degraded", False)),
+                    payload_json=item.pop("payload_json", None),
                 )
-            return int(cur.lastrowid)
+                count += 1
+        return count
 
     def latest_by_node(self) -> dict[str, dict[str, Any]]:
         with self.connect() as conn:

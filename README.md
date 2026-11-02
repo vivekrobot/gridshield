@@ -245,6 +245,25 @@ script also writes `build/GridShield-Report.pdf` as a preview. The reporting
 dependencies are `python-pptx` and `matplotlib`; `playwright` is only needed
 for a fresh capture.
 
+## Deployment
+
+GitHub Pages cannot run Streamlit. Use one of these paths:
+
+- **Public demo:** Streamlit Community Cloud with the main file set to
+  `dashboard/demo_app.py`. It seeds 5 minutes of synthetic history and keeps
+  refreshing without a broker.
+- **Live node:** build the Docker image and run it on Render, Railway or Fly.io
+  with a persistent volume at `/data` and `GRIDSHIELD_MODE=live`.
+
+```powershell
+docker build -t gridshield .
+docker run --rm -p 8501:8501 -v gridshield-data:/data gridshield
+```
+
+See [`docs/deployment.md`](docs/deployment.md) for GitHub push, Streamlit
+Community Cloud, Render/Railway/Fly.io, MQTT environment variables and the
+security checklist.
+
 ## Licence
 
 Research and educational use. Third-party libraries retain their own licences.

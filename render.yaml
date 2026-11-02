@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: gridshield
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /_stcore/health
+    envVars:
+      - key: GRIDSHIELD_MODE
+        value: demo
+      - key: GRIDSHIELD_DB
+        value: /data/gridshield.db
+    disk:
+      name: gridshield-data
+      mountPath: /data
+      sizeGB: 1

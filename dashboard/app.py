@@ -10,6 +10,7 @@ ingestor or the local simulator, so it never blocks the telemetry path.
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 from datetime import datetime
@@ -37,6 +38,8 @@ from dashboard import components as C  # noqa: E402
 from dashboard.theme import inject_theme  # noqa: E402
 from ml.config import ANOMALY_META_PATH, ANOMALY_MODEL_PATH  # noqa: E402
 
+DEMO_MODE = os.getenv("GRIDSHIELD_DEMO", "").strip().lower() in {"1", "true", "yes", "on"}
+
 st.set_page_config(
     page_title="GridShield SCADA",
     page_icon="⚡",
@@ -51,6 +54,16 @@ def get_store() -> Store:
     return Store(DB_PATH)
 
 
+@st.cache_resource
+def get_demo_feed():
+    """Only used by dashboard/demo_app.py; production keeps the dashboard read-only."""
+    if not DEMO_MODE:
+        return None
+    from dashboard.demo import DemoFeed
+
+    return DemoFeed(DB_PATH)
+
+
 @st.cache_data(ttl=30)
 def anomaly_meta() -> dict:
     if ANOMALY_META_PATH.exists():
@@ -59,6 +72,10 @@ def anomaly_meta() -> dict:
 
 
 store = get_store()
+demo = get_demo_feed()
+if demo is not None:
+    with st.spinner("Preparing live demo telemetry..."):
+        demo.ensure_seed()
 nodes = store.nodes()
 
 if not nodes:
@@ -84,7 +101,10 @@ with st.sidebar:
 
     st.divider()
     st.markdown("**Operator controls**")
-    st.caption(f"MQTT {MQTT_HOST}:{MQTT_PORT}")
+    if demo is not None:
+        st.caption("Demo feed · synthetic telemetry")
+    else:
+        st.caption(f"MQTT {MQTT_HOST}:{MQTT_PORT}")
     cmd_cols = st.columns(2)
     commands = [
         ("Sag", "VOLTAGE_SAG"),
@@ -95,20 +115,41 @@ with st.sidebar:
     for index, (label, fault) in enumerate(commands):
         with cmd_cols[index % 2]:
             if st.button(label, key=f"cmd_{fault}", width="stretch"):
-                ok, message = publish_command(selected_id, "inject", fault, duration_s=8.0)
-                store.log_command(selected_id, "inject", {"fault": fault}, "sent" if ok else "failed")
+                if demo is not None:
+                    ok = demo.inject(selected_id, fault)
+                    message = "Demo fault injected" if ok else "Unknown demo node"
+                else:
+                    ok, message = publish_command(selected_id, "inject", fault, duration_s=8.0)
+                store.log_command(
+                    selected_id,
+                    "inject",
+                    {"fault": fault},
+                    ("accepted" if ok else "failed") if demo is not None else ("sent" if ok else "failed"),
+                )
                 st.session_state["cmd_msg"] = (ok, message)
                 st.rerun()
     if st.button("Reset relay", key="cmd_reset", type="primary", width="stretch"):
-        ok, message = publish_command(selected_id, "reset")
-        store.log_command(selected_id, "reset", {}, "sent" if ok else "failed")
+        if demo is not None:
+            ok = demo.reset(selected_id)
+            message = "Demo relay reset requested" if ok else "Unknown demo node"
+        else:
+            ok, message = publish_command(selected_id, "reset")
+        store.log_command(
+            selected_id,
+            "reset",
+            {},
+            ("accepted" if ok else "failed") if demo is not None else ("sent" if ok else "failed"),
+        )
         st.session_state["cmd_msg"] = (ok, message)
         st.rerun()
 
     if "cmd_msg" in st.session_state:
         ok, message = st.session_state.pop("cmd_msg")
         (st.success if ok else st.warning)(message)
-    st.caption("Commands are published to the edge node and only take effect if the simulator/ingestor is in MQTT mode.")
+    if demo is not None:
+        st.caption("Commands act on the in-process demo simulator; no physical relay is connected.")
+    else:
+        st.caption("Commands are published to the edge node and only take effect if the simulator/ingestor is in MQTT mode.")
 
     st.divider()
     history_for_csv = store.history(selected_id, minutes=window_min)
@@ -134,6 +175,8 @@ with st.sidebar:
 
 @st.fragment(run_every=f"{refresh_s}s")
 def live(device_id: str, minutes: int) -> None:
+    if demo is not None:
+        demo.tick(refresh_s)
     now = time.time()
     latest = store.latest_by_node()
     selected = latest.get(device_id)
