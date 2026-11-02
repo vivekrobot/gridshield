@@ -1,0 +1,18 @@
+# GridShield runtime + dashboard + ML training.
+# Verified on Python 3.14.6 with the versions pinned below.
+
+numpy==2.5.4
+pandas==3.1.0
+scikit-learn==1.9.1
+joblib==1.6.0
+matplotlib==3.11.2
+streamlit==1.66.1
+folium==0.20.0
+plotly==7.1.0
+paho-mqtt==2.1.0
+
+# Documentation PDF build (scripts/build_pdf.py). Optional at runtime.
+markdown>=3.6
+
+# Report deck build (scripts/make_ppt.py). Optional at runtime.
+python-pptx>=1.0

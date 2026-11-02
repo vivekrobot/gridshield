@@ -1,0 +1,166 @@
+{
+  "generated_at": "2026-11-01T14:25:53.025646+00:00",
+  "test": {
+    "accuracy": 0.9777777777777777,
+    "macro_f1": 0.9778941250897134,
+    "weighted_f1": 0.9778941250897134,
+    "per_class": {
+      "NORMAL": {
+        "precision": 0.925531914893617,
+        "recall": 0.9666666666666667,
+        "f1": 0.9456521739130435,
+        "support": 90
+      },
+      "VOLTAGE_SAG": {
+        "precision": 0.9885057471264368,
+        "recall": 0.9555555555555556,
+        "f1": 0.9717514124293786,
+        "support": 90
+      },
+      "VOLTAGE_SWELL": {
+        "precision": 0.9775280898876404,
+        "recall": 0.9666666666666667,
+        "f1": 0.9720670391061452,
+        "support": 90
+      },
+      "HARMONIC_DISTORTION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 90
+      },
+      "SHORT_CIRCUIT_OVERLOAD": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 90
+      }
+    },
+    "confusion_matrix": [
+      [
+        87,
+        1,
+        2,
+        0,
+        0
+      ],
+      [
+        4,
+        86,
+        0,
+        0,
+        0
+      ],
+      [
+        3,
+        0,
+        87,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        90,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        90
+      ]
+    ],
+    "mean_confidence": 0.8680996298789978
+  },
+  "validation": {
+    "accuracy": 0.9822222222222222,
+    "macro_f1": 0.9822795577172405,
+    "weighted_f1": 0.9822795577172404,
+    "per_class": {
+      "NORMAL": {
+        "precision": 0.9183673469387755,
+        "recall": 1.0,
+        "f1": 0.9574468085106383,
+        "support": 90
+      },
+      "VOLTAGE_SAG": {
+        "precision": 1.0,
+        "recall": 0.9222222222222223,
+        "f1": 0.9595375722543352,
+        "support": 90
+      },
+      "VOLTAGE_SWELL": {
+        "precision": 1.0,
+        "recall": 0.9888888888888889,
+        "f1": 0.994413407821229,
+        "support": 90
+      },
+      "HARMONIC_DISTORTION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 90
+      },
+      "SHORT_CIRCUIT_OVERLOAD": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 90
+      }
+    },
+    "confusion_matrix": [
+      [
+        90,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        7,
+        83,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        89,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        90,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        90
+      ]
+    ],
+    "mean_confidence": 0.8692824244499207
+  },
+  "training": {
+    "per_class": 600,
+    "epochs_requested": 40,
+    "epochs_run": 32,
+    "batch_size": 64,
+    "learning_rate": 0.003,
+    "best_val_accuracy": 0.9822222222222222,
+    "seconds": 7.11,
+    "seed": 42
+  },
+  "params": 1709,
+  "host_inference_ms_median": 0.089,
+  "note": "Metrics are on a synthetic, noise-augmented dataset. They do not constitute validation on recorded grid waveforms."
+}

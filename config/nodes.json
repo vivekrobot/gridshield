@@ -1,0 +1,38 @@
+[
+  {
+    "device_id": "node-001",
+    "name": "Vasant Kunj Residence",
+    "lat": 28.5205,
+    "lon": 77.159,
+    "rated_current_a": 12.0,
+    "solar_kwp": 3.2,
+    "meta": {"feeder": "F-11", "tariff": "residential"}
+  },
+  {
+    "device_id": "node-002",
+    "name": "Dwarka Sector 12",
+    "lat": 28.5921,
+    "lon": 77.046,
+    "rated_current_a": 12.0,
+    "solar_kwp": 4.0,
+    "meta": {"feeder": "F-04", "tariff": "residential"}
+  },
+  {
+    "device_id": "node-003",
+    "name": "Rohini Community Centre",
+    "lat": 28.7495,
+    "lon": 77.0565,
+    "rated_current_a": 12.0,
+    "solar_kwp": 2.5,
+    "meta": {"feeder": "F-19", "tariff": "commercial"}
+  },
+  {
+    "device_id": "node-004",
+    "name": "Saket Solar Prosumer",
+    "lat": 28.5245,
+    "lon": 77.2066,
+    "rated_current_a": 12.0,
+    "solar_kwp": 3.6,
+    "meta": {"feeder": "F-07", "tariff": "residential"}
+  }
+]

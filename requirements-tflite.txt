@@ -1,0 +1,7 @@
+# Optional: only needed for `python -m ml.export_tflite`.
+# TensorFlow does not publish wheels for Python 3.13+ at the time of writing,
+# so use a Python 3.10-3.12 virtual environment for this step.
+# The shipped firmware does not need TensorFlow: it runs the generated
+# int8 weight header with the portable kernels in firmware/.../ai.cpp.
+
+tensorflow-cpu==2.16.2 ; python_version < "3.13"

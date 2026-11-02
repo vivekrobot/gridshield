@@ -1,0 +1,36 @@
+# Secrets and local config
+.env
+firmware/arduino/gridshield_node/secrets.h
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime data (SQLite, WAL, raw captures)
+data/*.db
+data/*.db-*
+data/*.sqlite*
+data/raw/
+data/processed/
+
+# Firmware build output
+firmware/.pio/
+build/
+*.bin
+*.elf
+*.map
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
