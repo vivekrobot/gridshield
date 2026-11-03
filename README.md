@@ -1,5 +1,7 @@
 # GridShield
 
+[![Live demo](https://img.shields.io/badge/demo-live-brightgreen)](https://gridshieldd.streamlit.app/)
+
 Edge-AI power-quality monitoring and fail-safe load protection for low-voltage
 distribution networks. An ESP32 node samples voltage and current, classifies
 power-quality disturbances with a 1D-CNN, trips a latching relay locally, and

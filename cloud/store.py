@@ -282,3 +282,13 @@ class Store:
             alerts = conn.execute("SELECT COUNT(*) FROM alerts").fetchone()[0]
             nodes = conn.execute("SELECT COUNT(*) FROM nodes").fetchone()[0]
         return {"telemetry": int(telemetry), "alerts": int(alerts), "nodes": int(nodes)}
+
+    def telemetry_span(self) -> tuple[float, float, int] | None:
+        """Return ``(oldest_ts, newest_ts, rows)`` for stored telemetry."""
+        with self.connect() as conn:
+            row = conn.execute(
+                "SELECT MIN(ts_epoch), MAX(ts_epoch), COUNT(*) FROM telemetry"
+            ).fetchone()
+        if not row or row[0] is None:
+            return None
+        return float(row[0]), float(row[1]), int(row[2])

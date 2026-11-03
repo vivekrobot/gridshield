@@ -116,10 +116,12 @@ class DemoFeed:
             if self._seeded:
                 return
             latest = self.store.latest_by_node()
+            span = self.store.telemetry_span()
             now = time.time()
-            if latest and now - max(float(row["ts_epoch"]) for row in latest.values()) < 60:
-                # A previous process may have left a fresh demo DB behind.
-                # Restore the integration state before appending new samples.
+            full_window = span is not None and (span[1] - span[0]) >= HISTORY_SECONDS * 0.8
+            if latest and full_window and now - float(span[1]) < 60:
+                # A previous process may have left a complete, fresh demo DB
+                # behind.  Restore the integration state before appending.
                 for node in self.nodes:
                     row = latest.get(node.device_id)
                     if not row:
@@ -137,6 +139,8 @@ class DemoFeed:
                 self._seeded = True
                 return
             if latest:
+                # Partial window (for example after a Streamlit restart) would
+                # leave the chart nearly empty, so rebuild a full history.
                 self._clear_data()
             self._backfill(now)
             self._seeded = True

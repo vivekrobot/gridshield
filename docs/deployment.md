@@ -1,5 +1,7 @@
 # Deploying GridShield
 
+Live demo: <https://gridshieldd.streamlit.app/>
+
 GitHub stores the source. It does **not** run Streamlit: GitHub Pages serves
 static files only, so the SCADA dashboard needs a Python host.
 
