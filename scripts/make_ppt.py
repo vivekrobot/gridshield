@@ -16,7 +16,7 @@ from pptx.enum.text import PP_ALIGN
 from pptkit import (
     ACCENT, ACCENT_L, AMBER, GREEN, INK, INK2, LINE, MUTED, PANEL, RED,
     WHITE, blank, bullets, deck, header, kpi, picture, rect,
-    table, text,
+    reference, table, text,
 )
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -461,6 +461,63 @@ def slide_limits(prs, n):
          10.5, MUTED)
 
 
+def slide_references(prs, n):
+    s = blank(prs)
+    header(s, n, "References", "Standards, methods and software",
+           "Primary sources behind the measurement, machine-learning and safety decisions in this report.")
+
+    standards = [
+        ("1", "IEEE Std 1159-2019. ",
+         "IEEE Recommended Practice for Monitoring Electric Power Quality. IEEE, 2019. "
+         "doi:10.1109/IEEESTD.2019.8796486"),
+        ("2", "IEC 61000-4-30:2015. ",
+         "Electromagnetic compatibility (EMC) – Part 4-30: Testing and measurement "
+         "techniques – Power quality measurement methods. IEC, 2015."),
+        ("3", "IEEE Std 519-2022. ",
+         "IEEE Standard for Harmonic Control in Electric Power Systems. IEEE, 2022. "
+         "doi:10.1109/IEEESTD.2022.9848440"),
+        ("4", "IEC 60364-4-41:2017. ",
+         "Low-voltage electrical installations – Part 4-41: Protection for safety – "
+         "Protection against electric shock. IEC, 2017."),
+        ("5", "IEC 60898-1:2015. ",
+         "Electrical accessories – Circuit-breakers for overcurrent protection for "
+         "household and similar installations – Part 1: Circuit-breakers for a.c. "
+         "operation. IEC, 2015."),
+    ]
+    methods = [
+        ("6", "Liu, Ting & Zhou (2008). ",
+         "Isolation Forest. Proc. 8th IEEE International Conference on Data Mining "
+         "(ICDM), pp. 413–422. doi:10.1109/ICDM.2008.17"),
+        ("7", "Kiranyaz et al. (2021). ",
+         "1D convolutional neural networks and applications: A survey. Mechanical "
+         "Systems and Signal Processing, 151, 107398. doi:10.1016/j.ymssp.2020.107398"),
+        ("8", "Kingma & Ba (2015). ",
+         "Adam: A method for stochastic optimization. International Conference on "
+         "Learning Representations (ICLR). arXiv:1412.6980"),
+        ("9", "Loshchilov & Hutter (2019). ",
+         "Decoupled weight decay regularization. International Conference on Learning "
+         "Representations (ICLR). arXiv:1711.05101"),
+        ("10", "OASIS (2014). ",
+         "MQTT Version 3.1.1. OASIS Standard, 29 October 2014. "
+         "https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/"),
+    ]
+
+    for x, heading, refs in (
+        (0.7, "STANDARDS AND PRACTICE", standards),
+        (6.85, "METHODS AND PROTOCOLS", methods),
+    ):
+        text(s, x, 2.14, 5.6, 0.26, heading, 9.5, MUTED, bold=True)
+        rect(s, x, 2.43, 5.55, 0.012, fill=LINE)
+        for i, (num, lead, rest) in enumerate(refs):
+            reference(s, x, 2.6 + i * 0.78, 5.55, 0.72, num, lead, rest, size=9.0)
+
+    rect(s, 0.7, 6.5, 11.93, 0.012, fill=LINE)
+    text(s, 0.7, 6.62, 11.93, 0.36,
+         "Hardware and software documentation: Espressif ESP32 datasheet; Peacefair PZEM-004T v3 manual; "
+         "YHDC SCT-013 and ZMPT101B datasheets; NumPy, scikit-learn, Streamlit and Folium documentation.",
+         8.2, MUTED)
+
+
 def slide_close(prs, n):
     s = blank(prs, INK)
     rect(s, 0, 0, 13.333, 0.09, fill=ACCENT)
@@ -494,7 +551,7 @@ def main() -> int:
         slide_title, slide_agenda, slide_problem, slide_objectives,
         slide_architecture, slide_hw_power, slide_hw_mcu, slide_isolation,
         slide_pipeline, slide_results, slide_safety, slide_energy,
-        slide_dashboard, slide_pdm, slide_limits, slide_close,
+        slide_dashboard, slide_pdm, slide_limits, slide_references, slide_close,
     ]
     assets = {
         slide_hw_power: "sheet1.png",

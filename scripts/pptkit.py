@@ -191,6 +191,39 @@ def picture(slide, path, x, y, w, h):
                                     Inches(pw), Inches(ph))
 
 
+def reference(slide, x, y, w, h, number, lead, rest, size=8.8, gap=0.0):
+    """One numbered bibliography entry with a bold lead and muted detail."""
+    box = slide.shapes.add_textbox(Inches(x), Inches(y), Inches(w), Inches(h))
+    tf = box.text_frame
+    tf.word_wrap = True
+    tf.margin_left = 0
+    tf.margin_right = 0
+    tf.margin_top = 0
+    tf.margin_bottom = 0
+    p = tf.paragraphs[0]
+    p.line_spacing = 1.08
+    if gap:
+        p.space_after = Pt(gap)
+    r0 = p.add_run()
+    r0.text = f"[{number}] "
+    r0.font.name = FONT
+    r0.font.size = Pt(size)
+    r0.font.bold = True
+    r0.font.color.rgb = ACCENT
+    r1 = p.add_run()
+    r1.text = lead
+    r1.font.name = FONT
+    r1.font.size = Pt(size)
+    r1.font.bold = True
+    r1.font.color.rgb = INK2
+    r2 = p.add_run()
+    r2.text = rest
+    r2.font.name = FONT
+    r2.font.size = Pt(size)
+    r2.font.color.rgb = MUTED
+    return box
+
+
 def table(slide, x, y, w, rows, col_widths, font=11, header_fill=INK2,
           stripe=PANEL, row_h=0.34):
     shape = slide.shapes.add_table(len(rows), len(rows[0]), Inches(x), Inches(y),

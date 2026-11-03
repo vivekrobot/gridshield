@@ -220,8 +220,9 @@ Chrome/Edge, so no extra Python packages beyond `markdown` are required.
 
 ## Report deck
 
-`build/GridShield-Report.pptx` is a 16-slide project report with the schematics,
-the confusion matrix, a live dashboard capture and the net-metering chart:
+`build/GridShield-Report.pptx` is a 17-slide project report with the schematics,
+the confusion matrix, a live dashboard capture, the net-metering chart and a
+references slide:
 
 | Slides | Content |
 |---|---|
@@ -229,7 +230,9 @@ the confusion matrix, a live dashboard capture and the net-metering chart:
 | 5–8 | Architecture, mains path, MCU front-end, PZEM isolation |
 | 9–11 | Signal chain and 1D-CNN, held-out results, safety interlock |
 | 12–14 | Net metering, SCADA dashboard, predictive maintenance |
-| 15–16 | Limits and roadmap, summary |
+| 15 | Limits and roadmap |
+| 16 | Standards, methods and software references |
+| 17 | Summary |
 
 Rebuild it with:
 
