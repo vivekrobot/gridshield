@@ -226,7 +226,7 @@ references slide:
 
 | Slides | Content |
 |---|---|
-| 1–4 | Title, agenda, problem statement, objectives |
+| 1–4 | Title, agenda, problem statement, objectives with rationale and evidence |
 | 5–8 | Architecture, mains path, MCU front-end, PZEM isolation |
 | 9–11 | Signal chain and 1D-CNN, held-out results, safety interlock |
 | 12–14 | Net metering, SCADA dashboard, predictive maintenance |

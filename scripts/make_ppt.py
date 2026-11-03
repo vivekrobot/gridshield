@@ -103,22 +103,53 @@ def slide_problem(prs, n):
 def slide_objectives(prs, n):
     s = blank(prs)
     header(s, n, "01 · Objectives", "Four design goals, one bill of materials",
-           "Everything runs on an ESP32 and a laptop — no GPU, no cloud account, no vendor lock-in.")
-    rows = [
-        ("Classify", "five PQD classes on-device", "NORMAL, sag, swell, harmonic distortion, short-circuit overload — from an 80 ms V/I window."),
-        ("Protect", "locally, without the network", "Latching relay trip driven by firmware thresholds, mirrored but never depended on by the cloud."),
-        ("Observe", "every node on one map", "MQTT telemetry into SQLite, rendered by a Streamlit + Folium dashboard with an event log."),
-        ("Predict", "degradation before failure", "Isolation Forest over eight power-quality features, with a rolling-window health index."),
+           "Each goal answers a specific failure mode and is backed by a measured artefact in this report.")
+
+    columns = [
+        (0.95, 1.30, "GOAL"),
+        (2.40, 3.90, "WHAT WE BUILD"),
+        (6.55, 2.75, "WHY IT MATTERS"),
+        (9.55, 3.00, "EVIDENCE"),
     ]
-    for i, (verb, title, desc) in enumerate(rows):
-        y = 2.05 + i * 1.12
-        rect(s, 0.7, y, 0.055, 0.86, fill=ACCENT)
-        text(s, 0.95, y - 0.04, 1.55, 0.45, verb, 17, ACCENT, bold=True)
-        text(s, 2.55, y - 0.02, 10.0, 0.35, title, 15, INK, bold=True)
-        text(s, 2.55, y + 0.36, 10.0, 0.45, desc, 10.5, MUTED)
-    text(s, 0.7, 6.55, 11.9, 0.3,
-         "Constraint respected: the original paper's 1D-CNN and 5-class taxonomy, corrected where the hardware cannot deliver.",
-         10, MUTED)
+    for x, w, label in columns:
+        text(s, x, 2.06, w, 0.24, label, 8.5, MUTED, bold=True)
+    rect(s, 0.7, 2.34, 11.93, 0.012, fill=LINE)
+
+    rows = [
+        ("Classify", "Five PQD classes on-device",
+         "Sag, swell, harmonic distortion, overload and normal from one 80 ms V/I window.",
+         "RMS alone cannot tell a sag from a short circuit; waveform shape can.",
+         "97.8 % held-out accuracy", "1,709 params · 0.089 ms host inference"),
+        ("Protect", "Local trip, no network in the loop",
+         "A latching relay driven by firmware thresholds, mirrored by the cloud but never dependent on it.",
+         "Cloud latency or an outage must never delay a trip on a live feeder.",
+         "12 A / 180–270 V trip limits", "latching relay · reset only after ACK"),
+        ("Observe", "One live view of every node",
+         "MQTT telemetry into SQLite, rendered as a Streamlit + Folium console with an event log.",
+         "Operators need the event, the waveform and the energy flow on one timeline.",
+         "2 s ingest · session energy", "map, alerts and CSV export"),
+        ("Predict", "Degradation before failure",
+         "Isolation Forest over eight power-quality features with a rolling health index.",
+         "Breakdowns are gradual; a trend turns a surprise trip into planned maintenance.",
+         "0.9995 synthetic detection", "8 features · 5 % healthy false positives"),
+    ]
+
+    for i, (verb, title, desc, why, ev_value, ev_note) in enumerate(rows):
+        y = 2.46 + i * 1.0
+        rect(s, 0.7, y, 0.055, 0.88, fill=ACCENT)
+        text(s, 0.95, y - 0.02, 1.30, 0.32, verb, 16, ACCENT, bold=True)
+        text(s, 2.40, y - 0.04, 3.90, 0.30, title, 12.5, INK, bold=True)
+        text(s, 2.40, y + 0.29, 3.90, 0.55, desc, 9.0, MUTED)
+        text(s, 6.55, y + 0.02, 2.75, 0.72, why, 9.0, INK2)
+        text(s, 9.55, y + 0.02, 3.00, 0.30, ev_value, 9.4, INK2, bold=True)
+        text(s, 9.55, y + 0.34, 3.00, 0.42, ev_note, 8.6, MUTED)
+        if i < len(rows) - 1:
+            rect(s, 0.7, y + 0.94, 11.93, 0.008, fill=LINE)
+
+    text(s, 0.7, 6.55, 11.93, 0.40,
+         "Every goal is exercised by the 60-test suite and the public demo. The paper's 1D-CNN and five-class "
+         "taxonomy are kept, corrected where the hardware cannot deliver.",
+         9.2, MUTED)
 
 
 def slide_architecture(prs, n):
