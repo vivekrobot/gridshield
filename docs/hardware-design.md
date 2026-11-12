@@ -26,11 +26,13 @@ options are in [`wiring.md`](wiring.md).
 
 ## 2. Block diagram
 
-The three schematic sheets are
+The three detail schematic sheets are
 [`circuit-sheet-1-power.svg`](circuit-sheet-1-power.svg) (mains path),
 [`circuit-sheet-2-isolation.svg`](circuit-sheet-2-isolation.svg) (isolation and
 supplies) and [`circuit-sheet-3-mcu-io.svg`](circuit-sheet-3-mcu-io.svg) (MCU,
-sensing and actuation). They are embedded in `build/GridShield-Project.pdf`.
+sensing and actuation). [`circuit-complete.svg`](circuit-complete.svg) is the
+consolidated one-page circuit. All four are embedded in
+`build/GridShield-Project.pdf`.
 
 ```
         230 V L ── MCB ── RCD ──┬───────────────┬──────────────────────┐

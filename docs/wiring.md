@@ -10,8 +10,9 @@ Reference drawings: [`hardware-design.md`](hardware-design.md) explains the
 blocks, power budget and layout rules; [`circuit-sheet-1-power.svg`](circuit-sheet-1-power.svg)
 (mains path and meters), [`circuit-sheet-2-isolation.svg`](circuit-sheet-2-isolation.svg)
 (isolation barrier) and [`circuit-sheet-3-mcu-io.svg`](circuit-sheet-3-mcu-io.svg)
-(MCU and I/O) are the schematics. All of them, plus this document, are compiled
-into `build/GridShield-Project.pdf` by `scripts/build-pdf.ps1`.
+(MCU and I/O) are the schematics. [`circuit-complete.svg`](circuit-complete.svg)
+is the consolidated one-page circuit. All of them, plus this document, are
+compiled into `build/GridShield-Project.pdf` by `scripts/build-pdf.ps1`.
 
 ## Bill of materials
 

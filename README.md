@@ -206,13 +206,22 @@ project PDF:
 - [`docs/circuit-sheet-1-power.svg`](docs/circuit-sheet-1-power.svg) — mains path, MCB/RCD, PZEM meters, relay, load
 - [`docs/circuit-sheet-2-isolation.svg`](docs/circuit-sheet-2-isolation.svg) — PZEM isolation barrier, isolated 5 V supplies
 - [`docs/circuit-sheet-3-mcu-io.svg`](docs/circuit-sheet-3-mcu-io.svg) — ESP32 pin map, ADC front-end, relay driver
+- [`docs/circuit-complete.svg`](docs/circuit-complete.svg) — one-page consolidated hardware circuit (also `build/circuit-complete.pdf` and `.png`)
 
 Regenerate the drawings and rebuild the full documentation PDF (README plus
-every file in `docs/`, the three schematic sheets and a file inventory):
+every file in `docs/`, all four schematic sheets and a file inventory):
 
 ```powershell
 .\scripts\build-pdf.ps1
 # output: build\GridShield-Project.pdf
+```
+
+The consolidated sheet is produced separately (it also renders a standalone
+PDF and PNG with Playwright and Edge):
+
+```powershell
+python scripts\make_circuit_diagram.py
+# output: docs\circuit-complete.svg, build\circuit-complete.pdf, build\circuit-complete.png
 ```
 
 The PDF is produced by converting Markdown to HTML and printing it with headless

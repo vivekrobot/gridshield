@@ -44,6 +44,7 @@ SHEETS = [
     ("Sheet 1 — Mains power path", "docs/circuit-sheet-1-power.svg"),
     ("Sheet 2 — Isolation and power", "docs/circuit-sheet-2-isolation.svg"),
     ("Sheet 3 — MCU, sensing and actuation", "docs/circuit-sheet-3-mcu-io.svg"),
+    ("Sheet 4 — Complete hardware circuit", "docs/circuit-complete.svg"),
 ]
 
 SKIP_DIRS = {".git", "__pycache__", ".venv", "venv", "data", "build", "models", "reports"}
