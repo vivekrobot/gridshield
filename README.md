@@ -203,7 +203,8 @@ tests fail if `config.h` and `cloud/config.py` drift apart.
 The reference schematics are vector SVGs and are also printed inside the
 project PDF:
 
-- [`docs/circuit-complete.svg`](docs/circuit-complete.svg) — **start here:** the one complete circuit for the whole model (also `build/circuit-complete.pdf` and `.png`)
+- [`docs/circuit-simple.svg`](docs/circuit-simple.svg) — **start here for the overview:** one-line power and signal flow (also `build/circuit-simple.pdf` and `.png`)
+- [`docs/circuit-complete.svg`](docs/circuit-complete.svg) — detailed complete circuit with all components, isolation and notes (also `build/circuit-complete.pdf` and `.png`)
 - [`docs/circuit-sheet-1-power.svg`](docs/circuit-sheet-1-power.svg) — optional detail: mains path, MCB/RCD, PZEM meters, relay, load
 - [`docs/circuit-sheet-2-isolation.svg`](docs/circuit-sheet-2-isolation.svg) — optional detail: PZEM isolation barrier, isolated 5 V supplies
 - [`docs/circuit-sheet-3-mcu-io.svg`](docs/circuit-sheet-3-mcu-io.svg) — optional detail: ESP32 pin map, ADC front-end, relay driver
@@ -216,10 +217,13 @@ every file in `docs/`, all four schematic sheets and a file inventory):
 # output: build\GridShield-Project.pdf
 ```
 
-The consolidated sheet is produced separately (it also renders a standalone
-PDF and PNG with Playwright and Edge):
+The simple and detailed single-sheet drawings are produced separately (they
+also render standalone PDF and PNG files with Playwright and Edge):
 
 ```powershell
+python scripts\make_simple_circuit.py
+# output: docs\circuit-simple.svg, build\circuit-simple.pdf, build\circuit-simple.png
+
 python scripts\make_circuit_diagram.py
 # output: docs\circuit-complete.svg, build\circuit-complete.pdf, build\circuit-complete.png
 ```
