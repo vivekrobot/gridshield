@@ -452,8 +452,8 @@
 <line x1="2130" y1="1492" x2="2130" y2="1564" class="w"/>
 <text x="48" y="1522" font-size="16" text-anchor="start" class="" font-weight="600">GridShield — complete hardware circuit</text>
 <text x="48" y="1546" font-size="11" text-anchor="start" class="g">ESP32 edge node · dual PZEM · isolated UART · fail-safe relay</text>
-<text x="1970" y="1522" font-size="13" text-anchor="start" class="">Sheet 4 of 4</text>
-<text x="1970" y="1546" font-size="11" text-anchor="start" class="g">Rev A · 2026-11-12</text>
+<text x="1970" y="1522" font-size="13" text-anchor="start" class="">Complete circuit</text>
+<text x="1970" y="1546" font-size="11" text-anchor="start" class="g">Single sheet · Rev A</text>
 <text x="2150" y="1522" font-size="13" text-anchor="start" class="">Prototype</text>
 <text x="2150" y="1546" font-size="11" text-anchor="start" class="g">not certified</text>
 </svg>

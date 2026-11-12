@@ -98,8 +98,8 @@ class Diagram(Sheet):
         self.line(W - 270, y, W - 270, y + 72)
         self.txt(48, y + 30, "GridShield — complete hardware circuit", 16, weight="600")
         self.txt(48, y + 54, sub, 11, cls="g")
-        self.txt(W - 430, y + 30, f"Sheet {sheet} of 4", 13)
-        self.txt(W - 430, y + 54, "Rev A · 2026-11-12", 11, cls="g")
+        self.txt(W - 430, y + 30, "Complete circuit", 13)
+        self.txt(W - 430, y + 54, "Single sheet · Rev A", 11, cls="g")
         self.txt(W - 250, y + 30, "Prototype", 13)
         self.txt(W - 250, y + 54, "not certified", 11, cls="g")
 

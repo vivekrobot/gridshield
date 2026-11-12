@@ -203,10 +203,10 @@ tests fail if `config.h` and `cloud/config.py` drift apart.
 The reference schematics are vector SVGs and are also printed inside the
 project PDF:
 
-- [`docs/circuit-sheet-1-power.svg`](docs/circuit-sheet-1-power.svg) — mains path, MCB/RCD, PZEM meters, relay, load
-- [`docs/circuit-sheet-2-isolation.svg`](docs/circuit-sheet-2-isolation.svg) — PZEM isolation barrier, isolated 5 V supplies
-- [`docs/circuit-sheet-3-mcu-io.svg`](docs/circuit-sheet-3-mcu-io.svg) — ESP32 pin map, ADC front-end, relay driver
-- [`docs/circuit-complete.svg`](docs/circuit-complete.svg) — one-page consolidated hardware circuit (also `build/circuit-complete.pdf` and `.png`)
+- [`docs/circuit-complete.svg`](docs/circuit-complete.svg) — **start here:** the one complete circuit for the whole model (also `build/circuit-complete.pdf` and `.png`)
+- [`docs/circuit-sheet-1-power.svg`](docs/circuit-sheet-1-power.svg) — optional detail: mains path, MCB/RCD, PZEM meters, relay, load
+- [`docs/circuit-sheet-2-isolation.svg`](docs/circuit-sheet-2-isolation.svg) — optional detail: PZEM isolation barrier, isolated 5 V supplies
+- [`docs/circuit-sheet-3-mcu-io.svg`](docs/circuit-sheet-3-mcu-io.svg) — optional detail: ESP32 pin map, ADC front-end, relay driver
 
 Regenerate the drawings and rebuild the full documentation PDF (README plus
 every file in `docs/`, all four schematic sheets and a file inventory):
